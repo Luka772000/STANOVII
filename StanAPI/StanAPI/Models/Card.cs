@@ -14,6 +14,7 @@ namespace StanAPI.Models
         public int CardNumber { get; set; }
         public int CardExpDate { get; set; }
         public int CVV { get; set; }
-        public ICollection<User> Users { get; set; }
+        public int UserId { get; set; }
+        public User User { get; set; }
     }
 }

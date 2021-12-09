@@ -10,6 +10,7 @@ namespace StanAPI.Models
     {
         [Key]
         public int ContractId { get; set; }
+        public int Date { get; set; }
         public Apartment Apartment { get; set; }
         public User User { get; set; }
 

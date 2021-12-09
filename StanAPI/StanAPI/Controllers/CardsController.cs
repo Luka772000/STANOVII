@@ -11,47 +11,47 @@ namespace StanAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class CardsController : ControllerBase
     {
         private readonly ApContext _context;
 
-        public UsersController(ApContext context)
+        public CardsController(ApContext context)
         {
             _context = context;
         }
 
-        // GET: api/Users
+        // GET: api/Cards
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<Card>>> GetCards()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Cards.ToListAsync();
         }
 
-        // GET: api/Users/5
+        // GET: api/Cards/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<Card>> GetCard(int id)
         {
-            var user = await _context.Users.FindAsync(id);
+            var card = await _context.Cards.FindAsync(id);
 
-            if (user == null)
+            if (card == null)
             {
                 return NotFound();
             }
 
-            return user;
+            return card;
         }
 
-        // PUT: api/Users/5
+        // PUT: api/Cards/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
+        public async Task<IActionResult> PutCard(int id, Card card)
         {
-            if (id != user.UserId)
+            if (id != card.CardId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Entry(card).State = EntityState.Modified;
 
             try
             {
@@ -59,7 +59,7 @@ namespace StanAPI.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(id))
+                if (!CardExists(id))
                 {
                     return NotFound();
                 }
@@ -72,38 +72,36 @@ namespace StanAPI.Controllers
             return NoContent();
         }
 
-        // POST: api/Users
+        // POST: api/Cards
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<Card>> PostCard(Card card)
         {
-            user.Contracts = null;
-            
-            _context.Users.Add(user);
+            _context.Cards.Add(card);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+            return CreatedAtAction("GetCard", new { id = card.CardId }, card);
         }
 
-        // DELETE: api/Users/5
+        // DELETE: api/Cards/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteCard(int id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
+            var card = await _context.Cards.FindAsync(id);
+            if (card == null)
             {
                 return NotFound();
             }
 
-            _context.Users.Remove(user);
+            _context.Cards.Remove(card);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool UserExists(int id)
+        private bool CardExists(int id)
         {
-            return _context.Users.Any(e => e.UserId == id);
+            return _context.Cards.Any(e => e.CardId == id);
         }
     }
 }

@@ -16,7 +16,13 @@ namespace StanAPI.Models
             modelBuilder.Entity<Apartment>()
         .HasOne(a => a.Adress).WithOne(b => b.Apartment)
         .HasForeignKey<Adress>(e => e.ApartmentId);
+
+            modelBuilder.Entity<User>()
+        .HasOne(a => a.Card).WithOne(b => b.User)
+        .HasForeignKey<Card>(e => e.UserId);
+
         }
+
         public DbSet<Apartment> Apartments { get; set; }
 
         public DbSet<User> Users { get; set; }

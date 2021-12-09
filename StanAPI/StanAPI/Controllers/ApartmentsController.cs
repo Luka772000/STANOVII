@@ -76,11 +76,12 @@ namespace StanAPI.Controllers
         // POST: api/Apartments
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Apartment>> PostApartment(Apartment apartment,Adress adress)
+        public async Task<ActionResult<Apartment>> PostApartment(Apartment apartment)
         {
             apartment.Contracts=null;
+
+
             _context.Apartments.Add(apartment);
-            apartment.Adress.Add(adress);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetApartment", new { id = apartment.ApId }, apartment);

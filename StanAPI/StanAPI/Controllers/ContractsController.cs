@@ -77,7 +77,13 @@ namespace StanAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Contract>> PostContract(Contract contract)
         {
+
+            User user = _context.Users.FirstOrDefault(u => u.Contracts == contract);
+            Apartment apartment = _context.Apartments.FirstOrDefault(a => a.Contracts == contract);
+            
             _context.Contracts.Add(contract);
+            
+            
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetContract", new { id = contract.ContractId }, contract);
