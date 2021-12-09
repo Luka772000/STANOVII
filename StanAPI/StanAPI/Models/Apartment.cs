@@ -19,7 +19,7 @@ namespace StanAPI.Models
 
         public Adress Adress { get; set; }
 
-        public ICollection<Contract> Contracts { get; set; }
+        public List<Contract> Contracts { get; set; }
         
     }
 }

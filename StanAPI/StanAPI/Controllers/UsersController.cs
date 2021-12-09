@@ -14,7 +14,7 @@ namespace StanAPI.Controllers
     public class UsersController : ControllerBase
     {
         private readonly ApContext _context;
-
+            
         public UsersController(ApContext context)
         {
             _context = context;
@@ -24,7 +24,9 @@ namespace StanAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+
+            var user = await _context.Users.Include(u => u.Card).Include(u=> u.Contracts).ToListAsync();
+            return Ok(user);
         }
 
         // GET: api/Users/5
@@ -48,7 +50,7 @@ namespace StanAPI.Controllers
         {
             if (id != user.UserId)
             {
-                return BadRequest();
+                return BadRequest(); 
             }
 
             _context.Entry(user).State = EntityState.Modified;

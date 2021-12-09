@@ -46,7 +46,7 @@ namespace StanAPI.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutContract(int id, Contract contract)
         {
-            if (id != contract.ContractId)
+            if (id != contract.UserId)
             {
                 return BadRequest();
             }
@@ -77,16 +77,24 @@ namespace StanAPI.Controllers
         [HttpPost]
         public async Task<ActionResult<Contract>> PostContract(Contract contract)
         {
-
-            User user = _context.Users.FirstOrDefault(u => u.Contracts == contract);
-            Apartment apartment = _context.Apartments.FirstOrDefault(a => a.Contracts == contract);
-            
             _context.Contracts.Add(contract);
-            
-            
-            await _context.SaveChangesAsync();
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (ContractExists(contract.UserId))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
-            return CreatedAtAction("GetContract", new { id = contract.ContractId }, contract);
+            return CreatedAtAction("GetContract", new { id = contract.UserId }, contract);
         }
 
         // DELETE: api/Contracts/5
@@ -107,7 +115,7 @@ namespace StanAPI.Controllers
 
         private bool ContractExists(int id)
         {
-            return _context.Contracts.Any(e => e.ContractId == id);
+            return _context.Contracts.Any(e => e.UserId == id);
         }
     }
 }

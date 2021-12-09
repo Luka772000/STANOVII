@@ -22,8 +22,8 @@ namespace StanAPI.Models
         public int Phone { get; set; }
 
         public int TransAcc { get; set; }
-        public ICollection<Contract> Contracts { get; set; }
-        public Card Card { get; set; }
+        public List<Contract> Contracts { get; set; }
+        public Card Card { get; set; }  
 
         //kartica strani kljuc entitte
     }

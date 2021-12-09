@@ -24,8 +24,9 @@ namespace StanAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Card>>> GetCards()
         {
-            return await _context.Cards.ToListAsync();
-        }
+            var card = await _context.Cards.Include(c=> c.User).ToListAsync();
+            return card;
+}
 
         // GET: api/Cards/5
         [HttpGet("{id}")]

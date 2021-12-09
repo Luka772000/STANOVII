@@ -24,7 +24,7 @@ namespace StanAPI.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Apartment>>> GetApartments()
         {
-            return await _context.Apartments.Include(a=>a.Adress).ToListAsync();
+            return await _context.Apartments.Include(a=>a.Adress).Include(a=>a.Contracts).ToListAsync();
         }
        
 
